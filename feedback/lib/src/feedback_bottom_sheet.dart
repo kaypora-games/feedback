@@ -95,57 +95,45 @@ class _DraggableFeedbackSheetState extends State<_DraggableFeedbackSheet> {
         (query.size.height - query.padding.top - query.viewInsets.bottom);
     return Column(
       children: [
-        ValueListenableBuilder<void>(
-          valueListenable: widget.sheetProgress,
-          child: Container(
-            height: MediaQuery.of(context).padding.top,
-            color: FeedbackTheme.of(context).feedbackSheetColor,
-          ),
-          builder: (context, _, child) {
-            return Opacity(
-              // Use the curved progress value
-              opacity: widget.sheetProgress.value,
-              child: child,
-            );
-          },
-        ),
         Expanded(
-          child: DraggableScrollableSheet(
-            controller: BetterFeedback.of(context).sheetController,
-            snap: true,
-            minChildSize: collapsedHeight,
-            initialChildSize: collapsedHeight,
-            builder: (context, scrollController) {
-              return ValueListenableBuilder<void>(
-                valueListenable: widget.sheetProgress,
-                builder: (context, _, child) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(
-                          20 * (1 - widget.sheetProgress.value)),
-                    ),
-                    child: child,
-                  );
-                },
-                child: Material(
-                  color: FeedbackTheme.of(context).feedbackSheetColor,
-                  // A `ListView` makes the content here disappear.
-                  child: DefaultTextEditingShortcuts(
-                    child: Navigator(
-                      onGenerateRoute: (_) {
-                        return MaterialPageRoute<void>(
-                          builder: (_) => widget.feedbackBuilder(
-                            context,
-                            widget.onSubmit,
-                            scrollController,
-                          ),
-                        );
-                      },
+          child: SafeArea(
+            bottom: false,
+            child: DraggableScrollableSheet(
+              controller: BetterFeedback.of(context).sheetController,
+              snap: true,
+              minChildSize: collapsedHeight,
+              initialChildSize: collapsedHeight,
+              builder: (context, scrollController) {
+                return ValueListenableBuilder<void>(
+                  valueListenable: widget.sheetProgress,
+                  builder: (context, _, child) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20 * (1 - widget.sheetProgress.value)),
+                      ),
+                      child: child,
+                    );
+                  },
+                  child: Material(
+                    color: FeedbackTheme.of(context).feedbackSheetColor,
+                    // A `ListView` makes the content here disappear.
+                    child: DefaultTextEditingShortcuts(
+                      child: Navigator(
+                        onGenerateRoute: (_) {
+                          return MaterialPageRoute<void>(
+                            builder: (_) => widget.feedbackBuilder(
+                              context,
+                              widget.onSubmit,
+                              scrollController,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ],

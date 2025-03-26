@@ -146,8 +146,15 @@ class FeedbackWidgetState extends State<FeedbackWidget>
         OverlayEntry(
           builder: (context) => Theme(
             data: theme,
-            child: Material(
-              color: FeedbackTheme.of(context).background,
+            child: ValueListenableBuilder(
+              valueListenable: sheetProgress,
+              builder: (context, value, child) {
+                // Only rebuild the Material color
+                return Material(
+                  color: Color.lerp(feedbackThemeData.background, feedbackThemeData.feedbackSheetColor, value),
+                  child: child,
+                );
+              },
               child: AnimatedBuilder(
                 animation: _controller,
                 // Place the screenshot here so that the widget tree isn't being
