@@ -68,18 +68,26 @@ class ControlsColumn extends StatelessWidget {
             ),
           ),
           _ColumnDivider(),
-          RotatedBox(
-            quarterTurns: 1,
-            child: MaterialButton(
-              key: const ValueKey<String>('draw_button'),
-              minWidth: 20,
-              onPressed: isNavigatingActive
-                  ? () => onControlModeChanged(FeedbackMode.draw)
-                  : null,
-              disabledTextColor:
-                  FeedbackTheme.of(context).activeFeedbackModeColor,
-              child: Text(FeedbackLocalizations.of(context).draw),
-            ),
+          // RotatedBox(
+          //   quarterTurns: 1,
+          //   child: MaterialButton(
+          //     key: const ValueKey<String>('draw_button'),
+          //     minWidth: 20,
+          //     onPressed: isNavigatingActive
+          //         ? () => onControlModeChanged(FeedbackMode.draw)
+          //         : null,
+          //     disabledTextColor:
+          //         FeedbackTheme.of(context).activeFeedbackModeColor,
+          //     child: Text(FeedbackLocalizations.of(context).draw),
+          //   ),
+          // ),
+          _ColorSelectionIconButton(
+            key: const ValueKey<String>('draw_button'),
+            color: isNavigatingActive ? Theme.of(context).disabledColor : activeColor,
+            onPressed: isNavigatingActive ? (_) => onControlModeChanged(FeedbackMode.draw) : (color) {
+              onColorChanged(colors.length == 1 ? color : colors[(colors.indexOf(color) + 1) % colors.length]);
+            },
+            isActive: !isNavigatingActive,
           ),
           IconButton(
             key: const ValueKey<String>('undo_button'),
@@ -91,13 +99,6 @@ class ControlsColumn extends StatelessWidget {
             icon: const Icon(Icons.delete),
             onPressed: isNavigatingActive ? null : onClearDrawing,
           ),
-          for (final color in colors)
-            _ColorSelectionIconButton(
-              key: ValueKey<Color>(color),
-              color: color,
-              onPressed: isNavigatingActive ? null : onColorChanged,
-              isActive: activeColor == color,
-            ),
         ],
       ),
     );
@@ -119,7 +120,7 @@ class _ColorSelectionIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(isActive ? Icons.lens : Icons.panorama_fish_eye),
+      icon: Icon(isActive ? Icons.draw : Icons.draw_outlined),
       color: color,
       onPressed: onPressed == null ? null : () => onPressed!(color),
     );
