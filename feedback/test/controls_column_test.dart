@@ -117,10 +117,8 @@ void main() {
       final clearButton = find.byKey(const ValueKey<String>('clear_button'));
       await tester.tap(clearButton);
 
-      for (final color in colors) {
-        final colorButton = find.byKey(ValueKey<Color>(color));
-        await tester.tap(colorButton);
-      }
+      final colorButton = find.byKey(ValueKey<String>('draw_button'));
+      await tester.tap(colorButton);
 
       expect(drawingCallbackWasCalled, false);
     });
@@ -130,22 +128,34 @@ void main() {
       Color color = colors[0];
 
       await tester.pumpWidget(
-        create(
-          mode: FeedbackMode.draw,
-          colors: colors,
-          activeColor: colors[0],
-          onColorChanged: (newColor) {
-            color = newColor;
-          },
-        ),
+        StatefulBuilder(builder: (context, setState){
+          return create(
+            colors: colors,
+            activeColor: color,
+            onColorChanged: (newColor) {
+              setState(() {
+                color = newColor;
+              });
+            },
+          );
+        })
       );
 
       await tester.pumpAndSettle();
 
-      final greenColorButton = find.byKey(ValueKey<Color>(colors[1]));
-      await tester.tap(greenColorButton);
-
+      final drawButton = find.byKey(ValueKey<String>('draw_button'));
+      await tester.tap(drawButton);
       expect(color, colors[1]);
+      await tester.pumpAndSettle();
+      await tester.tap(drawButton);
+      expect(color, colors[2]);
+      await tester.pumpAndSettle();
+      await tester.tap(drawButton);
+      expect(color, colors[3]);
+      await tester.pumpAndSettle();
+      await tester.tap(drawButton);
+      expect(color, colors[0]);
+
     });
   });
 }
