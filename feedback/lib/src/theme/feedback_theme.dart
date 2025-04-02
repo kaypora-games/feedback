@@ -43,7 +43,9 @@ class FeedbackThemeData {
       this.sheetIsDraggable = true,
       Brightness? brightness,
       Color? dragHandleColor,
-      ColorScheme? colorScheme})
+      ColorScheme? colorScheme,
+      this.navigateButtonStyle,
+      this.scale = 1})
       :
         // if the user chooses to supply custom drawing colors,
         // make sure there is at least on color to draw with
@@ -127,6 +129,12 @@ class FeedbackThemeData {
   /// [ColorScheme] on the feedback UI
   late final ColorScheme colorScheme;
 
+  /// Style of the navigate button
+  final TextStyle? navigateButtonStyle;
+
+  /// The relative size to feedback controls.
+  final double scale;
+
   /// Creates a copy of the current [FeedbackThemeData] with the given
   /// optional fields replaced with the given values.
   FeedbackThemeData copyWith({
@@ -141,6 +149,8 @@ class FeedbackThemeData {
     Color? dragHandleColor,
     Brightness? brightness,
     ColorScheme? colorScheme,
+    TextStyle? navigateButtonStyle,
+    double? scale,
   }) {
     return FeedbackThemeData(
       background: background ?? this.background,
@@ -157,6 +167,8 @@ class FeedbackThemeData {
       dragHandleColor: dragHandleColor ?? this.dragHandleColor,
       brightness: brightness ?? this.brightness,
       colorScheme: colorScheme ?? this.colorScheme,
+      navigateButtonStyle: navigateButtonStyle ?? this.navigateButtonStyle,
+      scale: scale ?? this.scale,
     );
   }
 }

@@ -37,12 +37,11 @@ class ControlsColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isNavigatingActive = FeedbackMode.navigate == mode;
-    return Card(
-      margin: EdgeInsets.zero,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(24),
-        ),
+    final r = FeedbackTheme.of(context).scale;
+    return Container(
+      decoration: BoxDecoration(
+        color: FeedbackTheme.of(context).feedbackSheetColor,
+        borderRadius: BorderRadius.all(Radius.circular(24 * r)),
       ),
       clipBehavior: Clip.antiAlias,
       child: Wrap(
@@ -53,18 +52,23 @@ class ControlsColumn extends StatelessWidget {
             key: const ValueKey<String>('close_controls_column'),
             icon: const Icon(Icons.close),
             onPressed: onCloseFeedback,
+            iconSize: 24 * r,
           ),
           _ColumnDivider(),
           RotatedBox(
             quarterTurns: 1,
             child: MaterialButton(
+              padding: EdgeInsets.zero,
               key: const ValueKey<String>('navigate_button'),
               onPressed: isNavigatingActive
                   ? null
                   : () => onControlModeChanged(FeedbackMode.navigate),
               disabledTextColor:
                   FeedbackTheme.of(context).activeFeedbackModeColor,
-              child: Text(FeedbackLocalizations.of(context).navigate),
+              child: Text(
+                FeedbackLocalizations.of(context).navigate,
+                style: FeedbackTheme.of(context).navigateButtonStyle,
+              ),
             ),
           ),
           _ColumnDivider(),
@@ -93,11 +97,13 @@ class ControlsColumn extends StatelessWidget {
             key: const ValueKey<String>('undo_button'),
             icon: const Icon(Icons.undo),
             onPressed: isNavigatingActive ? null : onUndo,
+            iconSize: 24 * r,
           ),
           IconButton(
             key: const ValueKey<String>('clear_button'),
             icon: const Icon(Icons.delete),
             onPressed: isNavigatingActive ? null : onClearDrawing,
+            iconSize: 24 * r,
           ),
         ],
       ),
@@ -119,10 +125,12 @@ class _ColorSelectionIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final r = FeedbackTheme.of(context).scale;
     return IconButton(
       icon: Icon(isActive ? Icons.draw : Icons.draw_outlined),
       color: color,
       onPressed: onPressed == null ? null : () => onPressed!(color),
+      iconSize: 24 * r,
     );
   }
 }
