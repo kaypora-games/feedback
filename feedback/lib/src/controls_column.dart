@@ -57,17 +57,20 @@ class ControlsColumn extends StatelessWidget {
           _ColumnDivider(),
           RotatedBox(
             quarterTurns: 1,
-            child: MaterialButton(
-              padding: EdgeInsets.zero,
-              key: const ValueKey<String>('navigate_button'),
-              onPressed: isNavigatingActive
-                  ? null
-                  : () => onControlModeChanged(FeedbackMode.navigate),
-              disabledTextColor:
-                  FeedbackTheme.of(context).activeFeedbackModeColor,
-              child: Text(
-                FeedbackLocalizations.of(context).navigate,
-                style: FeedbackTheme.of(context).navigateButtonStyle,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4 * r),
+              child: MaterialButton(
+                padding: EdgeInsets.zero,
+                key: const ValueKey<String>('navigate_button'),
+                onPressed: isNavigatingActive
+                    ? null
+                    : () => onControlModeChanged(FeedbackMode.navigate),
+                disabledTextColor:
+                    FeedbackTheme.of(context).activeFeedbackModeColor,
+                child: Text(
+                  FeedbackLocalizations.of(context).navigate,
+                  style: FeedbackTheme.of(context).navigateButtonStyle,
+                ),
               ),
             ),
           ),
