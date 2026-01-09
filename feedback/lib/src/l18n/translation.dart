@@ -336,6 +336,42 @@ class EsFeedbackLocalizations extends FeedbackLocalizations {
   String get navigate => 'Navegar';
 }
 
+/// Default bangla localization
+class BnFeedbackLocalizations extends FeedbackLocalizations {
+  /// Creates a [BnFeedbackLocalizations]
+  const BnFeedbackLocalizations();
+
+  @override
+  String get submitButtonText => 'জমা দিন';
+
+  @override
+  String get feedbackDescriptionText => 'সমস্যার বিস্তারিত লিখুন';
+
+  @override
+  String get draw => 'আঁকুন';
+
+  @override
+  String get navigate => 'নেভিগেট';
+}
+
+/// Default Henrew localization
+class HeFeedbackLocalizations extends FeedbackLocalizations {
+  /// Creates a [HeFeedbackLocalizations].
+  const HeFeedbackLocalizations();
+
+  @override
+  String get submitButtonText => 'שליחה';
+
+  @override
+  String get feedbackDescriptionText => 'מה הבעיה?';
+
+  @override
+  String get draw => 'ציור';
+
+  @override
+  String get navigate => 'ניווט';
+}
+
 // coverage:ignore-end
 
 /// This is a localization delegate, which includes all of the localizations
@@ -368,6 +404,8 @@ class GlobalFeedbackLocalizationsDelegate
     const Locale('bg'): const BgFeedbackLocalizations(),
     const Locale('es'): const EsFeedbackLocalizations(),
     const Locale('fa'): const FaFeedbackLocalizations(),
+    const Locale('bn'): const BnFeedbackLocalizations(),
+    const Locale('he'): const HeFeedbackLocalizations(),
   };
 
   /// The default locale to use. Note that this locale should ALWAYS be

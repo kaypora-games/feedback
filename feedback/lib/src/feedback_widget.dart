@@ -360,7 +360,11 @@ class FeedbackWidgetState extends State<FeedbackWidget>
   }
 
   static void _hideKeyboard(BuildContext context) {
-    FocusScope.of(context).requestFocus(FocusNode());
+    final currentFocus = FocusScope.of(context);
+
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      currentFocus.unfocus();
+    }
   }
 }
 
